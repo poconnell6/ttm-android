@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/title_text"
+        android:textColor="#981111"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelCreateCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@string/create_character_label_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/characterEditText"
+        app:layout_constraintEnd_toStartOf="@+id/characterEditText" />
+
+    <EditText
+        android:id="@+id/characterEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="42dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+    <Button
+        android:id="@+id/addCharacterButton"
+        android:layout_width="121dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="53dp"
+        android:text="@string/add_character_button_text"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/removeCharacterButton"
+        app:layout_constraintTop_toTopOf="@+id/removeCharacterButton" />
+
+    <Button
+        android:id="@+id/removeCharacterButton"
+        android:layout_width="121dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="58dp"
+        android:text="@string/remove_character_button_text"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/characterEditText" />
+
+    <TextView
+        android:id="@+id/labelSelectCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/select_a_character_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/removeCharacterButton" />
+
+    <ListView
+        android:id="@+id/characterListView"
+        android:layout_width="match_parent"
+        android:layout_height="409dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelSelectCharacter" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

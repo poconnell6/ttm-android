@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tabletop Manager</string>
+    <string name="title_text">Tabletop Manager</string>
+    <string name="create_character_label_text">New Character:</string>
+    <string name="add_character_button_text">Add Character</string>
+    <string name="remove_character_button_text">Remove Character</string>
+    <string name="select_a_character_label">Select a Character</string>
+    <string name="currency_unit">gp</string>
+    <string name="weight_unit">lbs</string>
+</resources>
