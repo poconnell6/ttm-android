@@ -23,6 +23,10 @@ public class InventoryActivity extends AppCompatActivity {
     EditText itemName;
     EditText itemWeight;
     EditText itemCost;
+<<<<<<< HEAD
+=======
+    TextView idNumber;
+>>>>>>> 38b56589ebd88b96c61b01d49a877720499a2701
     TextView title;
     ListView inventoryDisplay;
     DatabaseHelper dbHelper;
@@ -42,6 +46,10 @@ public class InventoryActivity extends AppCompatActivity {
         itemName = findViewById(R.id.itemNameEditText);
         itemWeight = findViewById(R.id.itemWeightEditText);
         itemCost = findViewById(R.id.itemCostEditText);
+<<<<<<< HEAD
+=======
+        idNumber = findViewById(R.id.idnum);
+>>>>>>> 38b56589ebd88b96c61b01d49a877720499a2701
         inventoryDisplay = findViewById(R.id.inventoryList);
         title = findViewById(R.id.inventoryTitle);
         title.setText(selectedCharName + "'s Inventory");
@@ -87,6 +95,7 @@ public class InventoryActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+<<<<<<< HEAD
                 TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.c1);
                 String deleteItemName = itemView.getText().toString();
 
@@ -94,6 +103,15 @@ public class InventoryActivity extends AppCompatActivity {
 
                 dbHelper.deleteItem(deleteItemName, selectedCharName, db);
                 Toast.makeText(view.getContext(), deleteItemName, Toast.LENGTH_LONG).show();
+=======
+                TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
+                String deleteItemID = itemView.getText().toString();
+
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                dbHelper.deleteItem(deleteItemID, db);
+                //Toast.makeText(view.getContext(), deleteItemID, Toast.LENGTH_LONG).show();
+>>>>>>> 38b56589ebd88b96c61b01d49a877720499a2701
                 getCharacterInventory(selectedCharName);
 
                 return true;
@@ -111,8 +129,13 @@ public class InventoryActivity extends AppCompatActivity {
 
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.inventory_list_diplay,
                 cursor,
+<<<<<<< HEAD
                 new String[]{InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
                 new int[]{R.id.cName, R.id.cWeight, R.id.cCost}, 0);
+=======
+                new String[]{InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
+                new int[]{R.id.idnum, R.id.cName, R.id.cWeight, R.id.cCost}, 0);
+>>>>>>> 38b56589ebd88b96c61b01d49a877720499a2701
         inventoryDisplay.setAdapter(myAdapter);
 
     }
