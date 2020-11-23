@@ -24,6 +24,8 @@ public class InventoryActivity extends AppCompatActivity {
     EditText itemWeight;
     EditText itemCost;
     TextView title;
+    TextView totalGold;
+    TextView totalWeight;
     ListView inventoryDisplay;
     DatabaseHelper dbHelper;
 
@@ -36,12 +38,17 @@ public class InventoryActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         final String selectedCharName = intent.getExtras().getString("name");
+
+
+
         //final Integer passedCharID = intent.getExtras().getInt("id");
         //final String selectedCharID = passedCharID.toString();
 
         itemName = findViewById(R.id.itemNameEditText);
         itemWeight = findViewById(R.id.itemWeightEditText);
         itemCost = findViewById(R.id.itemCostEditText);
+        totalGold = findViewById(R.id.goldTrackerAmtDisplay);
+        totalWeight = findViewById(R.id.weightTrackerAmtDisplay);
         inventoryDisplay = findViewById(R.id.inventoryList);
         title = findViewById(R.id.inventoryTitle);
         title.setText(selectedCharName + "'s Inventory");
@@ -102,6 +109,35 @@ public class InventoryActivity extends AppCompatActivity {
 
         getCharacterInventory(selectedCharName);
 
+
+    }
+
+    private void getTotalCharGold(String charName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = dbHelper.fetchInventoryData(db, charName);
+        Cursor cursor1 = db.rawQuery("SELECT SUM(ItemCost) FROM inventory WHERE CharacterName = '" + charName + "'", null);
+
+        if(cursor1.moveToFirst()) {
+           totalGold.setText(new String(String.valueOf(cursor1.getInt(0))));
+
+        }
+
+
+
+    }
+
+    private void getTotalCharWeight(String charName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = dbHelper.fetchInventoryData(db, charName);
+        Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
+
+        if(cursor1.moveToFirst()) {
+            totalWeight.setText(new String(String.valueOf(cursor1.getInt(0))));
+
+        }
+
+
+
     }
 
     private void getCharacterInventory(String charName) {
@@ -115,6 +151,12 @@ public class InventoryActivity extends AppCompatActivity {
                 new int[]{R.id.cName, R.id.cWeight, R.id.cCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
+        getTotalCharWeight(charName);
+        getTotalCharGold(charName);
+
+
     }
+
+
 
 }
