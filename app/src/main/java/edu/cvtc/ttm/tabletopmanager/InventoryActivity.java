@@ -94,13 +94,15 @@ public class InventoryActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.c1);
-                String deleteItemName = itemView.getText().toString();
+                TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
+                String deleteItemID = itemView.getText().toString();
+                TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
+                String deletedItemShow = "Deleted " + deletedItem.getText().toString();
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                dbHelper.deleteItem(deleteItemName, selectedCharName, db);
-                Toast.makeText(view.getContext(), deleteItemName, Toast.LENGTH_LONG).show();
+                dbHelper.deleteItem(deleteItemID, db);
+                Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
                 getCharacterInventory(selectedCharName);
 
                 return true;
@@ -147,8 +149,8 @@ public class InventoryActivity extends AppCompatActivity {
 
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.inventory_list_diplay,
                 cursor,
-                new String[]{InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
-                new int[]{R.id.cName, R.id.cWeight, R.id.cCost}, 0);
+                new String[]{InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
+                new int[]{R.id.idnum, R.id.cName, R.id.cWeight, R.id.cCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
         getTotalCharWeight(charName);
