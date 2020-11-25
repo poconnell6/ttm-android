@@ -54,11 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insertOrThrow(InventoryTable.TABLE, null, values);
     }
 
-    public void deleteItem(String itemID, SQLiteDatabase db) {
+    public void deleteItem(String itemName, String charName, SQLiteDatabase db) {
         db = getWritableDatabase();
-        String[] whereArgs = {itemID};
+        String[] whereArgs = {itemName, charName};
 
-        db.delete(InventoryTable.TABLE, InventoryTable.COLUMN_INVENTORY_ID + " = ?", whereArgs);
+        db.delete(InventoryTable.TABLE, InventoryTable.COLUMN_ITEM_NAME + " = ? AND " + InventoryTable.COLUMN_CHARACTER_NAME + " = ?", whereArgs);
     }
 
     public  ArrayList<String> getSelectedCharacter(SQLiteDatabase db) {
