@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;
     ListView charList;
     Button selectedChar;
+    int deletePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +53,31 @@ public class MainActivity extends AppCompatActivity {
 
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
+                } else if (charList.getCount() >= 7) {
+                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
                 } else {
-                    dbHelper.newCharacter(newCharacterName, db);
-                    getCharacterData();
-                    charName.getText().clear();
+                    ArrayList<String> newNameCompare = new ArrayList<String>();
 
-                    hideKeyboard(MainActivity.this);
+                    for (int i = 0; i <= charList.getCount()-1; i++) {
+                        TextView thisChar = charList.getChildAt(i).findViewById(R.id.idnum);
+                        String thisCharName = thisChar.getText().toString();
+                        newNameCompare.add(thisCharName);
+                    }
+
+                    if (newNameCompare.contains(newCharacterName)) {
+                        Toast.makeText(view.getContext(), "This character name is already being used.", Toast.LENGTH_LONG).show();
+                    } else {
+                        dbHelper.newCharacter(newCharacterName, db);
+                        getCharacterData();
+                        charName.getText().clear();
+
+                        hideKeyboard(MainActivity.this);
+                    }
                 }
 
             }
         });
 
-        // Some problems to work out here:
-        // Remove character button crashes app if there are too many (5+) characters
         // Long press deletes character but then clicks character that ends up in its position- not that bad but not good practice either
         Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
         removeCharacterButton.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +88,14 @@ public class MainActivity extends AppCompatActivity {
 
                     selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
                     selectedChar.setVisibility(View.VISIBLE);
-
-                    final int position = i;
+                    
+                    deletePosition = i;
 
                     final Button removeCharacterFinal = selectedChar;
                     removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
-                            TextView charView = charList.getChildAt(position).findViewById(R.id.idnum);
+                            TextView charView = charList.getChildAt(deletePosition).findViewById(R.id.idnum);
                             String deleteCharacterName = charView.getText().toString();
 
                             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -101,15 +114,17 @@ public class MainActivity extends AppCompatActivity {
 
         charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(view.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
-                charList.getChildAt(position).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                deletePosition = position - charList.getFirstVisiblePosition();
+                charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                Toast.makeText(view.getContext(), valueOf(deletePosition).toString(), Toast.LENGTH_LONG).show();
 
                 final Button removeCharacterFinal = charList.getChildAt(position).findViewById(R.id.confirmDeleteButton);
                 removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        TextView charView = charList.getChildAt(position).findViewById(R.id.idnum);
+                        TextView charView = charList.getChildAt(deletePosition).findViewById(R.id.idnum);
                         String deleteCharacterName = charView.getText().toString();
 
                         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -117,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                         dbHelper.deleteCharacter(deleteCharacterName, db);
                         Toast.makeText(view.getContext(), deleteCharacterName + " has been deleted.", Toast.LENGTH_LONG).show();
                         getCharacterData();
+
+                        deletePosition = 0;
 
                         return true;
                     }
@@ -126,18 +143,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getCharacterData();
-
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
-                ArrayList<String> tester = dbHelper.getSelectedCharacter(db);
+                ArrayList<String> selectedCharacter = dbHelper.getSelectedCharacter(db);
 
-                String test = tester.get(position);
+                String characterName = selectedCharacter.get(position);
 
                 Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-                intent.putExtra("name", test);
+                intent.putExtra("name", characterName);
                 intent.putExtra("id", position);
                 startActivity(intent);
             }
