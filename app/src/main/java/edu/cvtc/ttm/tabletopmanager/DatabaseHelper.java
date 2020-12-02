@@ -96,10 +96,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(str,null);
     }
 
+
+    public Cursor fetchWeightOfGear(SQLiteDatabase db, String charName) {
+        String str = "SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public Cursor fetchMaxWeight(SQLiteDatabase db, String charName) {
+        String str = "SELECT MaxWeight FROM inventory WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public Cursor updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
+        String str = "UPDATE character SET MaxWeight=MaxWeight + '" + newWeight + "' WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+
+    public Cursor fetchNetWorth(SQLiteDatabase db, String charName) {
+        String str = "SELECT Gold FROM character WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public Cursor increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+        String str = "UPDATE character SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public Cursor decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+        String str = "UPDATE character SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
     public static String charactersTableCreateStatement() {
         return "CREATE TABLE " +
                 CharactersTable.TABLE + " ( " +
                 CharactersTable.COLUMN_CHARACTER_ID + " INTEGER PRIMARY KEY NOT NULL, " +
+                CharactersTable.COLUMN_CHARACTER_GOLD + " INTEGER DEFAULT 0, " +
+                CharactersTable.COLUMN_CHARACTER_MAXWEIGHT + " INTEGER DEFAULT 99999, " +
                 CharactersTable.COLUMN_CHARACTER_NAME + " TEXT);";
     }
 

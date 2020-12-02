@@ -130,11 +130,11 @@ public class InventoryActivity extends AppCompatActivity {
 
     private void getTotalCharWeight(String charName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = dbHelper.fetchInventoryData(db, charName);
-        Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
+        Cursor cursor = dbHelper.fetchWeightOfGear(db, charName);
+        //Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
 
-        if(cursor1.moveToFirst()) {
-            totalWeight.setText(new String(String.valueOf(cursor1.getInt(0))));
+        if(cursor.moveToFirst()) {
+            totalWeight.setText(new String(String.valueOf(cursor.getInt(0))));
 
         }
 

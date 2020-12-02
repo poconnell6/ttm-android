@@ -12,6 +12,9 @@ public class DatabaseContract {
         public static final String TABLE = "characters";
         public static final String COLUMN_CHARACTER_ID = "id";
         public static final String COLUMN_CHARACTER_NAME = "CharacterName";
+        public static final String COLUMN_CHARACTER_GOLD = "Gold";
+        public static final String COLUMN_CHARACTER_MAXWEIGHT = "MaxWeight";
+
     }
 
     public class InventoryTable implements BaseColumns {
