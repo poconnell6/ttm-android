@@ -70,9 +70,6 @@ public class InventoryActivity extends AppCompatActivity {
                 dbHelper.addNewItem(selectedCharName, newItemName, newItemWeight, newItemCost, db);
 
                 getCharacterInventory(selectedCharName);
-
-
-
             }
         });
 
