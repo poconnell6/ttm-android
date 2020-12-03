@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class InventoryActivity extends AppCompatActivity {
     EditText itemName;
     EditText itemWeight;
     EditText itemCost;
+    EditText maxWeight;
     TextView title;
     TextView totalGold;
     TextView totalWeight;
@@ -52,6 +54,7 @@ public class InventoryActivity extends AppCompatActivity {
         inventoryDisplay = findViewById(R.id.inventoryList);
         title = findViewById(R.id.inventoryTitle);
         title.setText(selectedCharName + "'s Inventory");
+        maxWeight = findViewById(R.id.maxWeightEditText);
 
         final Button itemEntryButton = findViewById(R.id.itemEntryButton);
         itemEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +70,26 @@ public class InventoryActivity extends AppCompatActivity {
                 dbHelper.addNewItem(selectedCharName, newItemName, newItemWeight, newItemCost, db);
 
                 getCharacterInventory(selectedCharName);
+
+
+
+            }
+        });
+
+        final Button updateMaxWeightButton = findViewById(R.id.updateMaxWeightButton);
+        updateMaxWeightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                String newMaxWeight = maxWeight.getText().toString();
+
+
+                dbHelper.updateMaxWeight(db, selectedCharName, newMaxWeight);
+
+                getCharacterInventory(selectedCharName);
+                maxWeight.setText(getMaxWeight(selectedCharName));
 
             }
         });
@@ -110,36 +133,47 @@ public class InventoryActivity extends AppCompatActivity {
         });
 
         getCharacterInventory(selectedCharName);
+        maxWeight.setText(getMaxWeight(selectedCharName));
+        totalGold.setText(getTotalCharGold(selectedCharName));
+
 
 
     }
 
-    private void getTotalCharGold(String charName) {
+    private String getMaxWeight(String charName){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = dbHelper.fetchInventoryData(db, charName);
-        Cursor cursor1 = db.rawQuery("SELECT SUM(ItemCost) FROM inventory WHERE CharacterName = '" + charName + "'", null);
+        String str = "DB Error";
 
-        if(cursor1.moveToFirst()) {
-           totalGold.setText(new String(String.valueOf(cursor1.getInt(0))));
-
+        Cursor cursor = dbHelper.fetchMaxWeight(db, charName);
+        if (cursor.moveToFirst()) {
+             str = cursor.getString(cursor.getColumnIndex("MaxWeight"));
+            //String column_name = cursor.getColumnName(0);
+           //Log.i("DB col name", "getMaxWeight: " + column_name);
         }
+       return str;
+    }
 
+    private String getTotalCharGold(String charName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String str = "DB Error";
 
-
+        Cursor cursor = dbHelper.fetchNetWorth(db, charName);
+        if (cursor.moveToFirst()) {
+            str = cursor.getString(cursor.getColumnIndex("Gold"));
+            //String column_name = cursor.getColumnName(0);
+            //Log.i("DB col name", "gold: " + column_name);
+        }
+        return str;
     }
 
     private void getTotalCharWeight(String charName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = dbHelper.fetchInventoryData(db, charName);
-        Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
+        Cursor cursor = dbHelper.fetchWeightOfGear(db, charName);
+        //Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
 
-        if(cursor1.moveToFirst()) {
-            totalWeight.setText(new String(String.valueOf(cursor1.getInt(0))));
-
+        if(cursor.moveToFirst()) {
+            totalWeight.setText(new String(String.valueOf(cursor.getInt(0))));
         }
-
-
-
     }
 
     private void getCharacterInventory(String charName) {

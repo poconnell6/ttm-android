@@ -96,10 +96,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(str,null);
     }
 
+
+    public Cursor fetchWeightOfGear(SQLiteDatabase db, String charName) {
+        String str = "SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public Cursor fetchMaxWeight(SQLiteDatabase db, String charName) {
+        String str = "SELECT MaxWeight FROM characters WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public void updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
+        String str = "UPDATE characters SET MaxWeight='" + newWeight + "' WHERE CharacterName = '" + charName + "'";
+        db.execSQL(str);
+
+    }
+
+    public Cursor fetchNetWorth(SQLiteDatabase db, String charName) {
+        String str = "SELECT Gold FROM characters WHERE CharacterName = '" + charName + "'";
+        return db.rawQuery(str,null);
+    }
+
+    public void increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+        String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        db.execSQL(str);
+    }
+
+    public void decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+        String str = "UPDATE characters SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        db.execSQL(str);
+    }
+
     public static String charactersTableCreateStatement() {
         return "CREATE TABLE " +
                 CharactersTable.TABLE + " ( " +
                 CharactersTable.COLUMN_CHARACTER_ID + " INTEGER PRIMARY KEY NOT NULL, " +
+                CharactersTable.COLUMN_CHARACTER_GOLD + " INTEGER DEFAULT 0, " +
+                CharactersTable.COLUMN_CHARACTER_MAXWEIGHT + " INTEGER DEFAULT 99999, " +
                 CharactersTable.COLUMN_CHARACTER_NAME + " TEXT);";
     }
 

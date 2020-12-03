@@ -10,38 +10,13 @@
     android:paddingBottom="5dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/weightTrackerAmtDisplay"
-        android:layout_width="104dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="25dp"
-        android:text="placeholder text"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/goldTracker"
-        app:layout_constraintTop_toBottomOf="@+id/goldTrackerAmtDisplay" />
-
-    <TextView
-        android:id="@+id/weightTracker"
-        android:layout_width="52dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="18dp"
-        android:text="Weight:"
-        android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/itemDeleteButton"
-        app:layout_constraintTop_toBottomOf="@+id/goldTracker" />
 
     <TextView
         android:id="@+id/goldTrackerAmtDisplay"
-        android:layout_width="104dp"
-        android:layout_height="43dp"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="8dp"
         android:text="placeholder text"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -49,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/goldTracker"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
 
     <TextView
         android:id="@+id/inventoryTitle"
@@ -116,23 +91,81 @@
     <ListView
         android:id="@+id/inventoryList"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/maxWeightLable"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemEntryButton">
+        app:layout_constraintTop_toBottomOf="@+id/itemEntryButton"
+        app:layout_constraintVertical_bias="0.0">
 
     </ListView>
 
     <TextView
         android:id="@+id/goldTracker"
         android:layout_width="52dp"
-        android:layout_height="42dp"
+        android:layout_height="48dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:text="Gold: "
         android:textAlignment="center"
         app:layout_constraintStart_toEndOf="@+id/itemDeleteButton"
         app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
+
+    <EditText
+        android:id="@+id/maxWeightEditText"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/updateMaxWeightButton" />
+
+    <Button
+        android:id="@+id/updateMaxWeightButton"
+        android:layout_width="76dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:text="Update"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/maxWeightLable"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="16dp"
+        android:text="Weight Limit:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/maxWeightEditText" />
+
+    <TextView
+        android:id="@+id/weightTrackerAmtDisplay"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="placeholder text"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/maxWeightLable" />
+
+    <TextView
+        android:id="@+id/weightTracker"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="16dp"
+        android:text="Carried Weight:"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/weightTrackerAmtDisplay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
