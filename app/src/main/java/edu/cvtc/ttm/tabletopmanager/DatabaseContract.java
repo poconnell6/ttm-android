@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 public class DatabaseContract {
 
     public static final String DB_NAME = "ttm.com.cvtc.edu.tabletopmanager";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String _ID = "id";
 
     public class CharactersTable implements BaseColumns {
