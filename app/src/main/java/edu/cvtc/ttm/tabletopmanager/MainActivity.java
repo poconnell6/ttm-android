@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     ArrayList<String> newNameCompare = new ArrayList<String>();
 
+                    //TODO: mad science wherein we replace this array compare madness with a SQL COUNT WHERE name=name buried in an if statement madness
                     for (int i = 0; i <= charList.getCount()-1; i++) {
                         TextView thisChar = charList.getChildAt(i).findViewById(R.id.idnum);
                         String thisCharName = thisChar.getText().toString();

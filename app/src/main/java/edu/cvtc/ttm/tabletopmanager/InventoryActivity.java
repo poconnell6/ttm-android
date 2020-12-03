@@ -69,7 +69,7 @@ public class InventoryActivity extends AppCompatActivity {
 
                 dbHelper.addNewItem(selectedCharName, newItemName, newItemWeight, newItemCost, db);
 
-                getCharacterInventory(selectedCharName);
+                updateUI(selectedCharName);
             }
         });
 
@@ -82,11 +82,9 @@ public class InventoryActivity extends AppCompatActivity {
 
                 String newMaxWeight = maxWeight.getText().toString();
 
-
                 dbHelper.updateMaxWeight(db, selectedCharName, newMaxWeight);
 
-                getCharacterInventory(selectedCharName);
-                maxWeight.setText(getMaxWeight(selectedCharName));
+                updateUI(selectedCharName);
 
             }
         });
@@ -123,15 +121,12 @@ public class InventoryActivity extends AppCompatActivity {
 
                 dbHelper.deleteItem(deleteItemID, db);
                 Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
-                getCharacterInventory(selectedCharName);
-
+                updateUI(selectedCharName);
                 return true;
             }
         });
 
-        getCharacterInventory(selectedCharName);
-        maxWeight.setText(getMaxWeight(selectedCharName));
-        totalGold.setText(getTotalCharGold(selectedCharName));
+        updateUI(selectedCharName);
 
 
 
@@ -184,11 +179,16 @@ public class InventoryActivity extends AppCompatActivity {
                 new int[]{R.id.idnum, R.id.cName, R.id.cWeight, R.id.cCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
-        getTotalCharWeight(charName);
-        getTotalCharGold(charName);
-
-
+        updateUI(charName);
     }
+
+    private void updateUI(String charName){
+        getCharacterInventory(charName);
+        maxWeight.setText(getMaxWeight(charName));
+        totalGold.setText(getTotalCharGold(charName));
+    }
+
+    
 
 
 
