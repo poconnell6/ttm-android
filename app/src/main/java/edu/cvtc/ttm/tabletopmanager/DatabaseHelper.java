@@ -103,28 +103,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor fetchMaxWeight(SQLiteDatabase db, String charName) {
-        String str = "SELECT MaxWeight FROM inventory WHERE CharacterName = '" + charName + "'";
+        String str = "SELECT MaxWeight FROM characters WHERE CharacterName = '" + charName + "'";
         return db.rawQuery(str,null);
     }
 
     public Cursor updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
-        String str = "UPDATE character SET MaxWeight=MaxWeight + '" + newWeight + "' WHERE CharacterName = '" + charName + "'";
+        String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + newWeight + "' WHERE CharacterName = '" + charName + "'";
         return db.rawQuery(str,null);
     }
 
-
     public Cursor fetchNetWorth(SQLiteDatabase db, String charName) {
-        String str = "SELECT Gold FROM character WHERE CharacterName = '" + charName + "'";
+        String str = "SELECT Gold FROM characters WHERE CharacterName = '" + charName + "'";
         return db.rawQuery(str,null);
     }
 
     public Cursor increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
-        String str = "UPDATE character SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
         return db.rawQuery(str,null);
     }
 
     public Cursor decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
-        String str = "UPDATE character SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        String str = "UPDATE characters SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
         return db.rawQuery(str,null);
     }
 
