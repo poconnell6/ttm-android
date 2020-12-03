@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                     selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
                     selectedChar.setVisibility(View.VISIBLE);
-                    
+
                     deletePosition = i;
 
                     final Button removeCharacterFinal = selectedChar;
