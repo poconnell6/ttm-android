@@ -77,7 +77,7 @@ public class InventoryActivity extends AppCompatActivity {
         });
 
         final Button updateMaxWeightButton = findViewById(R.id.updateMaxWeightButton);
-        itemEntryButton.setOnClickListener(new View.OnClickListener() {
+        updateMaxWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -89,6 +89,7 @@ public class InventoryActivity extends AppCompatActivity {
                 dbHelper.updateMaxWeight(db, selectedCharName, newMaxWeight);
 
                 getCharacterInventory(selectedCharName);
+                maxWeight.setText(getMaxWeight(selectedCharName));
 
             }
         });

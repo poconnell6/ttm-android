@@ -107,9 +107,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(str,null);
     }
 
-    public Cursor updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
-        String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + newWeight + "' WHERE CharacterName = '" + charName + "'";
-        return db.rawQuery(str,null);
+    public void updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
+        String str = "UPDATE characters SET MaxWeight='" + newWeight + "' WHERE CharacterName = '" + charName + "'";
+        db.execSQL(str);
+
     }
 
     public Cursor fetchNetWorth(SQLiteDatabase db, String charName) {
@@ -117,14 +118,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(str,null);
     }
 
-    public Cursor increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+    public void increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
         String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
-        return db.rawQuery(str,null);
+        db.execSQL(str);
     }
 
-    public Cursor decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
+    public void decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
         String str = "UPDATE characters SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
-        return db.rawQuery(str,null);
+        db.execSQL(str);
     }
 
     public static String charactersTableCreateStatement() {
