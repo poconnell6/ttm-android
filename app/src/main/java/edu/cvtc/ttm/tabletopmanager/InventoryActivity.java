@@ -3,8 +3,8 @@ package edu.cvtc.ttm.tabletopmanager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,6 +28,7 @@ public class InventoryActivity extends AppCompatActivity {
     TextView title;
     TextView totalGold;
     TextView totalWeight;
+    TextView totalWeightLabel;
     ListView inventoryDisplay;
     DatabaseHelper dbHelper;
 
@@ -51,6 +52,7 @@ public class InventoryActivity extends AppCompatActivity {
         itemCost = findViewById(R.id.itemCostEditText);
         totalGold = findViewById(R.id.goldTrackerAmtDisplay);
         totalWeight = findViewById(R.id.weightTrackerAmtDisplay);
+        totalWeightLabel = findViewById(R.id.weightTrackerLabel);
         inventoryDisplay = findViewById(R.id.inventoryList);
         title = findViewById(R.id.inventoryTitle);
         title.setText(selectedCharName + "'s Inventory");
@@ -140,7 +142,7 @@ public class InventoryActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
              str = cursor.getString(cursor.getColumnIndex("MaxWeight"));
             //String column_name = cursor.getColumnName(0);
-           //Log.i("DB col name", "getMaxWeight: " + column_name);
+           //Log.i("DB col name", "Should be: " + column_name);
         }
        return str;
     }
@@ -153,19 +155,21 @@ public class InventoryActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             str = cursor.getString(cursor.getColumnIndex("Gold"));
             //String column_name = cursor.getColumnName(0);
-            //Log.i("DB col name", "gold: " + column_name);
+            //Log.i("DB col name", "Should be: " + column_name);
         }
         return str;
     }
 
-    private void getTotalCharWeight(String charName) {
+    private String getTotalCharWeight(String charName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = dbHelper.fetchWeightOfGear(db, charName);
-        //Cursor cursor1 = db.rawQuery("SELECT SUM(ItemWeight) FROM inventory WHERE CharacterName = '" + charName + "'", null);
-
-        if(cursor.moveToFirst()) {
-            totalWeight.setText(new String(String.valueOf(cursor.getInt(0))));
+        String str = "DB Error";
+        if (cursor.moveToFirst()) {
+            str = cursor.getString(cursor.getColumnIndex("SUM(ItemWeight)"));
+            //String column_name = cursor.getColumnName(0);
+            //Log.i("DB col name", "Should be: " + column_name);
         }
+        return str;
     }
 
     private void getCharacterInventory(String charName) {
@@ -179,16 +183,49 @@ public class InventoryActivity extends AppCompatActivity {
                 new int[]{R.id.idnum, R.id.cName, R.id.cWeight, R.id.cCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
-        updateUI(charName);
+
     }
 
     private void updateUI(String charName){
         getCharacterInventory(charName);
         maxWeight.setText(getMaxWeight(charName));
         totalGold.setText(getTotalCharGold(charName));
+        totalWeight.setText(getTotalCharWeight(charName));
+        checkIfOverWeightLimit();
     }
 
-    
+   private void checkIfOverWeightLimit(){
+        //Why am I storing data in the UI? I'm not really...(it should be refreshed continuously)
+        //however, I am pulling these straight from the UI rather than the variables or
+        //stable storage because I think that UI consistency is more important than the correctness
+        //of any one piece of the UI
+
+       int current = 0;
+       int max = 0;
+
+       try {
+           current = Integer.parseInt(totalWeight.getText().toString());
+       } catch(NumberFormatException nfe) {
+           System.out.println("Could not parse " + nfe);
+       }
+
+       try {
+           max = Integer.parseInt(maxWeight.getText().toString());
+       } catch(NumberFormatException nfe) {
+           System.out.println("Could not parse " + nfe);
+       }
+
+       if(current > max){
+           totalWeight.setTextColor(Color.RED);
+           totalWeightLabel.setTextColor(Color.RED);
+
+        }
+        else {
+           totalWeight.setTextColor(Color.BLACK);
+           totalWeightLabel.setTextColor(Color.BLACK);
+
+        }
+    }
 
 
 
