@@ -12,18 +12,29 @@
 
 
     <TextView
-        android:id="@+id/goldTrackerAmtDisplay"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="6dp"
+        android:id="@+id/goldAmtDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
         android:layout_marginTop="8dp"
-        android:text="placeholder text"
+        android:maxLength="83"
+        android:text="blank"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/goldAmtDisplay2"
+        app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
+
+    <TextView
+        android:id="@+id/goldAmtDisplay2"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="gp"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/goldTracker"
         app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
 
     <TextView
@@ -105,13 +116,13 @@
 
     <TextView
         android:id="@+id/goldTracker"
-        android:layout_width="52dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="36dp"
+        android:layout_height="22dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="7dp"
         android:text="Gold: "
         android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/itemDeleteButton"
+        app:layout_constraintEnd_toStartOf="@+id/goldAmtDisplay"
         app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
 
     <EditText
@@ -167,5 +178,54 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/weightTrackerAmtDisplay" />
+
+    <Button
+        android:id="@+id/goldPlusButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:includeFontPadding="false"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:paddingHorizontal="0dp"
+        android:paddingVertical="0dp"
+        android:paddingTop="0dp"
+        android:text="+"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/goldPlusMinusEditText"
+        app:layout_constraintTop_toTopOf="@+id/goldTracker" />
+
+    <Button
+        android:id="@+id/goldMinusButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:includeFontPadding="false"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:paddingHorizontal="0dp"
+        android:paddingVertical="0dp"
+        android:paddingTop="0dp"
+        android:text="-"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goldTracker" />
+
+    <EditText
+        android:id="@+id/goldPlusMinusEditText"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:paddingTop="0dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/goldMinusButton"
+        app:layout_constraintTop_toTopOf="@+id/goldAmtDisplay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

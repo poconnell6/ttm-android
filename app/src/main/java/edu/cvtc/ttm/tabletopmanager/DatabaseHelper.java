@@ -119,12 +119,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void increaseNetWorth(SQLiteDatabase db, String charName, String gold) {
-        String str = "UPDATE characters SET MaxWeight=MaxWeight + '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        String str = "UPDATE characters SET Gold=Gold + '" + gold + "' WHERE CharacterName = '" + charName + "'";
         db.execSQL(str);
     }
 
     public void decreaseNetWorth(SQLiteDatabase db, String charName, String gold) {
-        String str = "UPDATE characters SET MaxWeight=MaxWeight - '" + gold + "' WHERE CharacterName = '" + charName + "'";
+        String str = "UPDATE characters SET Gold=Gold - '" + gold + "' WHERE CharacterName = '" + charName + "'";
         db.execSQL(str);
     }
 
