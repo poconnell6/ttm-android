@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -133,8 +132,6 @@ public class InventoryActivity extends AppCompatActivity {
         maxWeight.setText(getMaxWeight(selectedCharName));
         totalGold.setText(getTotalCharGold(selectedCharName));
 
-
-
     }
 
     private String getMaxWeight(String charName){
@@ -143,11 +140,11 @@ public class InventoryActivity extends AppCompatActivity {
 
         Cursor cursor = dbHelper.fetchMaxWeight(db, charName);
         if (cursor.moveToFirst()) {
-             str = cursor.getString(cursor.getColumnIndex("MaxWeight"));
+            str = cursor.getString(cursor.getColumnIndex("MaxWeight"));
             //String column_name = cursor.getColumnName(0);
-           //Log.i("DB col name", "getMaxWeight: " + column_name);
+            //Log.i("DB col name", "getMaxWeight: " + column_name);
         }
-       return str;
+        return str;
     }
 
     private String getTotalCharGold(String charName) {
@@ -170,7 +167,9 @@ public class InventoryActivity extends AppCompatActivity {
 
         if(cursor.moveToFirst()) {
             totalWeight.setText(new String(String.valueOf(cursor.getInt(0))));
+
         }
+
     }
 
     private void getCharacterInventory(String charName) {

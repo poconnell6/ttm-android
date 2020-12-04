@@ -56,22 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 } else if (charList.getCount() >= 7) {
                     Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
                 } else {
-                    ArrayList<String> newNameCompare = new ArrayList<String>();
-
-                    for (int i = 0; i <= charList.getCount()-1; i++) {
-                        TextView thisChar = charList.getChildAt(i).findViewById(R.id.idnum);
-                        String thisCharName = thisChar.getText().toString();
-                        newNameCompare.add(thisCharName);
-                    }
-
-                    if (newNameCompare.contains(newCharacterName)) {
-                        Toast.makeText(view.getContext(), "This character name is already being used.", Toast.LENGTH_LONG).show();
-                    } else {
+                    if (dbHelper.compareNewName(db, newCharacterName)) {
                         dbHelper.newCharacter(newCharacterName, db);
                         getCharacterData();
                         charName.getText().clear();
 
                         hideKeyboard(MainActivity.this);
+                    } else {
+                        Toast.makeText(view.getContext(), "This name is already being used", Toast.LENGTH_LONG).show();
                     }
                 }
 

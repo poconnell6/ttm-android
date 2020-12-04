@@ -110,7 +110,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateMaxWeight(SQLiteDatabase db, String charName, String newWeight) {
         String str = "UPDATE characters SET MaxWeight='" + newWeight + "' WHERE CharacterName = '" + charName + "'";
         db.execSQL(str);
+    }
 
+    public boolean compareNewName(SQLiteDatabase db, String charName) {
+        //String str = "SELECT COUNT(CharacterName) FROM characters WHERE CharacterName = '" + charName + "'";
+        String str = "SELECT CharacterName FROM characters WHERE CharacterName = '" + charName + "'";
+        Cursor compare = db.rawQuery(str, null);
+        /*String boolString = compare.getString(1);
+        if (Integer.parseInt(boolString) == 1) {
+            return true;
+        } else {
+            return false;
+        }*/
+
+        if (compare.getCount() == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Cursor fetchNetWorth(SQLiteDatabase db, String charName) {
