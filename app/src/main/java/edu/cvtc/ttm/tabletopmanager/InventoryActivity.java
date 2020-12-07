@@ -32,6 +32,7 @@ public class InventoryActivity extends AppCompatActivity {
     TextView totalWeightLabel;
     ListView inventoryDisplay;
     DatabaseHelper dbHelper;
+    Boolean deleteEnabled;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
