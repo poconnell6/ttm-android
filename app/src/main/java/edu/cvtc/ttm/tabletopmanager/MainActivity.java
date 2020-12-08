@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
-                } else if (charList.getCount() >= 7) {
+                } else if (charList.getCount() >= 40) { //was >= 7
                     Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
                 } else {
                     if (dbHelper.compareNewName(db, newCharacterName)) {
@@ -75,10 +75,16 @@ public class MainActivity extends AppCompatActivity {
         removeCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ListAdapter selectedCharList = charList.getAdapter();
                 for(int i = 0; i <= charList.getCount()-1; i++) {
-
-                    selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
+                    Button delButton = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
+                    delButton.setVisibility(view.VISIBLE);
+                    //int test = charList.getItemAtPosition(1).getClass().getModifiers();
+                    //findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                    //selectedCharList.getView(i, view.findViewById(R.id.confirmDeleteButton), charList).setVisibility(view.VISIBLE);
+                    //ListAdapter charDeleteList = new simple;
+                    //charList.setAdapter(selectedCharList);
+                    /*selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
                     selectedChar.setVisibility(View.VISIBLE);
 
                     deletePosition = i;
@@ -98,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
                             return true;
                         }
-                    });
+                    });*/
                 }
+                //charList.setAdapter(selectedCharList);
             }
 
         });
@@ -108,11 +115,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(view.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
-                deletePosition = position - charList.getFirstVisiblePosition();
-                charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                Toast.makeText(view.getContext(), valueOf(deletePosition).toString(), Toast.LENGTH_LONG).show();
+                //deletePosition = position - charList.getFirstVisiblePosition();
+                int test = position; // shows real position
+                //parent.indexOfChild(view); // shows visibility position
+                //selected.findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                parent.findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                //charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                Toast.makeText(view.getContext(), valueOf(test), Toast.LENGTH_LONG).show();
 
-                final Button removeCharacterFinal = charList.getChildAt(position).findViewById(R.id.confirmDeleteButton);
+                /*final Button removeCharacterFinal = charList.getChildAt(position).findViewById(R.id.confirmDeleteButton);
                 removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
@@ -129,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
                         return true;
                     }
-                });
+                });*/
 
                 return true;
             }
@@ -188,6 +199,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void cancelDelete(View view) {
+        view.setVisibility(View.INVISIBLE);
     }
 
     private void getCharacterData() {
