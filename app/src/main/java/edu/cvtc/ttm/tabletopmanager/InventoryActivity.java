@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -41,6 +42,8 @@ public class InventoryActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         Intent intent = getIntent();
+
+        deleteEnabled = false;
 
         final String selectedCharName = intent.getExtras().getString("name");
 
@@ -130,39 +133,55 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
-        // TODO implement this later if I can figure it out
-        /*final Button itemDeleteButton = findViewById(R.id.itemDeleteButton);
-        itemEntryButton.setOnClickListener(new View.OnClickListener() {
+        final Button itemDeleteButton = findViewById(R.id.itemDeleteButton);
+        itemDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (deleteEnabled == false) {
+                    deleteEnabled = true;
+                    itemDeleteButton.setTextColor(Color.RED);
+                    Toast.makeText(view.getContext(), "Long-Press on an item to delete it.", Toast.LENGTH_LONG).show();
+                }
+                else if (deleteEnabled == true) { //i don't care if the IDE prefers the shorter form this is more symmetrical and more explicit, i like it here
+                    deleteEnabled = false;
+                    itemDeleteButton.setTextColor(Color.BLACK);
+                    Toast.makeText(view.getContext(), "Exiting delete mode.", Toast.LENGTH_LONG).show();
+                }
+                else { //we should never hit this
+                    Toast.makeText(view.getContext(), "Something has gone badly wrong; please contact tech support.", Toast.LENGTH_LONG).show();
 
-                String newItemName = itemName.getText().toString();
-                String newItemWeight = itemWeight.getText().toString();
-                String newItemCost = itemCost.getText().toString();
-
-                dbHelper.addNewItem(selectedCharName, newItemName, newItemWeight, newItemCost, db);
-
-                getCharacterInventory(selectedCharName);
+                }
 
             }
-        });*/
+        });
+
+
+
 
         inventoryDisplay.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (deleteEnabled) {
 
-                TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
-                String deleteItemID = itemView.getText().toString();
-                TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
-                String deletedItemShow = "Deleted " + deletedItem.getText().toString();
 
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
+                    String deleteItemID = itemView.getText().toString();
+                    TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
+                    String deletedItemShow = "Deleted " + deletedItem.getText().toString();
 
-                dbHelper.deleteItem(deleteItemID, db);
-                Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
-                updateUI(selectedCharName);
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                    dbHelper.deleteItem(deleteItemID, db);
+                    Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
+                    updateUI(selectedCharName);
+
+                }
+                else {
+                    Toast.makeText(view.getContext(), "Please click the \"Delete Mode\" button if you want to delete this item.", Toast.LENGTH_LONG).show();
+                }
+
+
                 return true;
             }
         });
@@ -206,7 +225,7 @@ public class InventoryActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             str = cursor.getString(cursor.getColumnIndex("SUM(ItemWeight)"));
             //String column_name = cursor.getColumnName(0);
-            //Log.i("DB col name", "Should be: " + column_name);
+            Log.i("DB char name", "cursor.getString(1) " + cursor.getString(1) +"   ");
         }
         return str;
     }

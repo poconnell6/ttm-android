@@ -6,7 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;
     ListView charList;
     Button selectedChar;
+    Button removeCharacterButton;
     int deletePosition;
+    boolean deleteEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         charName = findViewById(R.id.characterEditText);
         dbHelper = new DatabaseHelper(this);
         charList = findViewById(R.id.characterListView);
+        deleteEnabled = false;
 
         final Button addCharacterButton = findViewById(R.id.addCharacterButton);
         addCharacterButton.setOnClickListener(new View.OnClickListener() {
@@ -77,34 +82,24 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Fix all the character delete related crashes.
 
         // Long press deletes character but then clicks character that ends up in its position- not that bad but not good practice either
-        Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
+        final Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
         removeCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                for(int i = 0; i <= charList.getCount()-1; i++) {
+                if (deleteEnabled == false) {
+                    deleteEnabled = true;
+                    removeCharacterButton.setTextColor(Color.RED);
+                    Toast.makeText(view.getContext(), "Long-Press on an item to delete it.", Toast.LENGTH_LONG).show();
+                }
+                else if (deleteEnabled == true) { //i don't care if the IDE prefers the shorter form this is more symmetrical  and more explicit, i like it here
+                    deleteEnabled = false;
+                    removeCharacterButton.setTextColor(Color.BLACK);
+                    Toast.makeText(view.getContext(), "Exiting delete mode.", Toast.LENGTH_LONG).show();
+                }
+                else { //we should never hit this
+                    Toast.makeText(view.getContext(), "Something has gone badly wrong; please contact tech support.", Toast.LENGTH_LONG).show();
 
-                    selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
-                    selectedChar.setVisibility(View.VISIBLE);
-
-                    deletePosition = i;
-
-                    final Button removeCharacterFinal = selectedChar;
-                    removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            TextView charView = charList.getChildAt(deletePosition).findViewById(R.id.idnum);
-                            String deleteCharacterName = charView.getText().toString();
-
-                            SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                            dbHelper.deleteCharacter(deleteCharacterName, db);
-                            Toast.makeText(view.getContext(), deleteCharacterName + " has been deleted.", Toast.LENGTH_LONG).show();
-                            getCharacterData();
-
-                            return true;
-                        }
-                    });
                 }
             }
 
@@ -113,35 +108,41 @@ public class MainActivity extends AppCompatActivity {
         charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(view.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
-                deletePosition = position - charList.getFirstVisiblePosition();
-                charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                Toast.makeText(view.getContext(), valueOf(deletePosition).toString(), Toast.LENGTH_LONG).show();
+                if (deleteEnabled) {
 
-                final Button removeCharacterFinal = charList.getChildAt(position).findViewById(R.id.confirmDeleteButton);
-                removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        TextView charView = charList.getChildAt(deletePosition).findViewById(R.id.idnum);
-                        String deleteCharacterName = charView.getText().toString();
+                    Cursor cursor = (Cursor) charList.getItemAtPosition(position);
+                    String column_name = cursor.getColumnName(0);
+                    //String str = cursor.getString(cursor.getColumnIndex(0);
+                    //Log.i("DB col name", "Should be: " + column_name);
+                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
 
-                        SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    TextView charView = charList.getChildAt(position).findViewById(R.id.idnum);
+                    String deleteCharID = charView.getText().toString();
 
-                        dbHelper.deleteCharacter(deleteCharacterName, db);
-                        Toast.makeText(view.getContext(), deleteCharacterName + " has been deleted.", Toast.LENGTH_LONG).show();
-                        getCharacterData();
+                    String deletedCharShow = "Deleted " + deleteCharID;
 
-                        deletePosition = 0;
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    dbHelper.deleteCharacter(deleteCharID, db);
 
-                        return true;
-                    }
-                });
+                    getCharacterData();
+                    Toast.makeText(view.getContext(), deletedCharShow, Toast.LENGTH_LONG).show();
 
+                    deleteEnabled = false;
+                    removeCharacterButton.setTextColor(Color.BLACK);
+
+
+
+                }
+                else {
+                    Toast.makeText(view.getContext(), "Please click the \"Remove Character\" button if you want to delete this item.", Toast.LENGTH_LONG).show();
+                }
                 return true;
             }
         });
 
-        //Make the character list clickable,
+
+
+        //Make the character list clickable, and on a short click take the user to their inventory.
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

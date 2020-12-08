@@ -93,7 +93,7 @@
         android:id="@+id/itemDeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Items"
+        android:text="Delete Mode"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemEntryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.37"
