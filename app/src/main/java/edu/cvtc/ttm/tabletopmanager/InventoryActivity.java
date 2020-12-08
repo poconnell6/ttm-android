@@ -60,6 +60,7 @@ public class InventoryActivity extends AppCompatActivity {
         maxWeight = findViewById(R.id.maxWeightEditText);
         goldOffset = findViewById(R.id.goldPlusMinusEditText);
 
+        //takes the strings from the top three text boxes and uses them to create an item in the equipment table
         final Button itemEntryButton = findViewById(R.id.itemEntryButton);
         itemEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +78,7 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
+        //sets a new limit for the characters carrying capacity
         final Button updateMaxWeightButton = findViewById(R.id.updateMaxWeightButton);
         updateMaxWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +95,7 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
+        //decrease the characters net worth by the specified amount of gold
         final Button goldMinusButton = findViewById(R.id.goldMinusButton);
         goldMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +112,7 @@ public class InventoryActivity extends AppCompatActivity {
             }
         });
 
+       //increase the characters net worth by the specified amount of gold
         final Button goldPlusButton = findViewById(R.id.goldPlusButton);
         goldPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override

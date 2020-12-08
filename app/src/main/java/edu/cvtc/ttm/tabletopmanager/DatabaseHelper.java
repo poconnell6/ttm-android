@@ -72,7 +72,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return characterNameList;
     }
+/*
 
+    //TODO: This is for a piece of future work that is in limbo, it is commented out for security and clarity
     public  ArrayList<String> getSelectedItem(SQLiteDatabase db) {
         String[] columns = {InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME};
         Cursor cursor = db.query(InventoryTable.TABLE, columns, null, null, null, null, null);
@@ -85,6 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return itemNameList;
     }
+*/
 
     public Cursor fetchCharacterData(SQLiteDatabase db) {
         String str = "SELECT rowid _id, * FROM characters";
@@ -112,6 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(str);
     }
 
+    //checks to see if a given name is already in the DB or not
     public boolean compareNewName(SQLiteDatabase db, String charName) {
         String str = "SELECT CharacterName FROM characters WHERE CharacterName = '" + charName + "'";
         Cursor compare = db.rawQuery(str, null);

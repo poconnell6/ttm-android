@@ -51,10 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+                //validate the new character name
+                //cant be blank
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
-                } else if (charList.getCount() >= 40) { //was >= 7
+
+                //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
+                } else if (charList.getCount() >= 7) {
+
                     Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
+               //Finally, the character's name must be a unique one...
                 } else {
                     if (dbHelper.compareNewName(db, newCharacterName)) {
                         dbHelper.newCharacter(newCharacterName, db);
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        //TODO: Fix all the character delete related crashes.
 
         // Long press deletes character but then clicks character that ends up in its position- not that bad but not good practice either
         Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
@@ -146,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Make the character list clickable,
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -206,10 +215,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCharacterData() {
+        //Suck the character names out of the DB
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = dbHelper.fetchCharacterData(db);
 
+        //and squirt them into a ListView
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
                 new String[]{CharactersTable.COLUMN_CHARACTER_NAME},
