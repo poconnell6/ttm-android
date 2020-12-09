@@ -158,7 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 InventoryTable.COLUMN_ITEM_WEIGHT + " TEXT, " +
                 InventoryTable.COLUMN_ITEM_COST + " TEXT);";
     }
-
+    // this makes sure a characters items are deleted if that char is deleted
+    // https://stackoverflow.com/questions/11415064/sqlitedatabase-delete-involving-sub-query
+    // https://stackoverflow.com/questions/10639331/new-and-old-trigger-code
     public static String triggersCreateStatement() {
         return"CREATE TRIGGER delete_cascade_owned_items AFTER DELETE ON "+ CharactersTable.TABLE + " \n" +
                 "BEGIN\n" +

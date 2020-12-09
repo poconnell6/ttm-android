@@ -21,11 +21,11 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/goldAmtDisplay2"
+        app:layout_constraintEnd_toStartOf="@+id/goldAmtDisplaySuffix"
         app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
 
     <TextView
-        android:id="@+id/goldAmtDisplay2"
+        android:id="@+id/goldAmtDisplaySuffix"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:layout_marginTop="8dp"

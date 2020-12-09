@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: Fix all the character delete related crashes. FIXED??
 
-        // Long press deletes character but then clicks character that ends up in its position- not that bad but not good practice either
+        // if (deleteEnabled) then Long press deletes character
+        // This should be fixed but be on the look out for squirrelyness
         final Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
         removeCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +113,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (deleteEnabled) {
 
+
+                    //this works... (found here: https://stackoverflow.com/questions/14839121/how-to-get-textview-values-from-a-listview-items)
                     String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
                     String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
+                    //where this does not:
+//                    TextView charView = charList.getChildAt(position).findViewById(R.id.cIDnum);
+//                    String deleteCharID = charView.getText().toString();
 
+                    //some other bits and pieces that also didn't work
                     //-Cursor cursor = (Cursor) charList.getItemAtPosition(position);
                     //-String column_name = cursor.getColumnName(0);
                     //String str = cursor.getString(cursor.getColumnIndex(0);
@@ -127,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
 //                   Log.i("DB char name", "mycursor.contactId(3) " + contactId +"   ");
 //
 
-//                    TextView charView = charList.getChildAt(position).findViewById(R.id.IDnum);
 
-//                    String deleteCharID = charView.getText().toString();
 //
                     String deletedCharShow = "Deleted " + CharName;
 
