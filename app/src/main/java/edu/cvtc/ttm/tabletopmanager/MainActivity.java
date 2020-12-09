@@ -3,6 +3,7 @@ package edu.cvtc.ttm.tabletopmanager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,9 +11,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -20,7 +24,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.cvtc.ttm.tabletopmanager.DatabaseContract.CharactersTable;
 
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         charList = findViewById(R.id.characterListView);
 
+        getCharacterData();
+
         final Button addCharacterButton = findViewById(R.id.addCharacterButton);
         addCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
 
                 //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
-                } else if (charList.getCount() >= 7) {
+                } else if (charList.getCount() >= 10) {
 
                     Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
                //Finally, the character's name must be a unique one...
@@ -83,16 +91,12 @@ public class MainActivity extends AppCompatActivity {
         removeCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ListAdapter selectedCharList = charList.getAdapter();
                 for(int i = 0; i <= charList.getCount()-1; i++) {
-                    Button delButton = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
-                    delButton.setVisibility(view.VISIBLE);
-                    //int test = charList.getItemAtPosition(1).getClass().getModifiers();
-                    //findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                    //selectedCharList.getView(i, view.findViewById(R.id.confirmDeleteButton), charList).setVisibility(view.VISIBLE);
-                    //ListAdapter charDeleteList = new simple;
-                    //charList.setAdapter(selectedCharList);
-                    /*selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
+                    //Button delButton = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
+
+
+                        selectedChar = charList.getChildAt(i).findViewById(R.id.confirmDeleteButton);
+
                     selectedChar.setVisibility(View.VISIBLE);
 
                     deletePosition = i;
@@ -112,30 +116,36 @@ public class MainActivity extends AppCompatActivity {
 
                             return true;
                         }
-                    });*/
+                    });
                 }
-                //charList.setAdapter(selectedCharList);
+
             }
 
         });
 
-        charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(view.getContext(), String.valueOf(position), Toast.LENGTH_LONG).show();
-                //deletePosition = position - charList.getFirstVisiblePosition();
-                int test = position; // shows real position
-                //parent.indexOfChild(view); // shows visibility position
-                //selected.findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                parent.findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                //charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
-                Toast.makeText(view.getContext(), valueOf(test), Toast.LENGTH_LONG).show();
+                ListAdapter test = (ListAdapter) parent.getAdapter();
+                test.getView(8, view, charList).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                deletePosition = position;
+                /*for (int i = 0; i < charList.getCount(); i++) {
+                    charList.getAdapter().
+                }*/
 
-                /*final Button removeCharacterFinal = charList.getChildAt(position).findViewById(R.id.confirmDeleteButton);
+                //view.findViewById(R.id.confirmDeleteButton).setVisibility(View.VISIBLE);
+                //charList.setAdapter(test);
+                //position; // shows real position
+                //int test = parent.indexOfChild(view); // shows visibility position
+                //charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
+                //Toast.makeText(view.getContext(), method1.getName(), Toast.LENGTH_LONG).show();
+
+                /*final Button removeCharacterFinal = charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton);
                 removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        TextView charView = charList.getChildAt(deletePosition).findViewById(R.id.idnum);
+                        int savedDeletePosition = deletePosition;
+                        TextView charView = charList.getChildAt(savedDeletePosition).findViewById(R.id.idnum);
                         String deleteCharacterName = charView.getText().toString();
 
                         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -144,15 +154,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(view.getContext(), deleteCharacterName + " has been deleted.", Toast.LENGTH_LONG).show();
                         getCharacterData();
 
-                        deletePosition = 0;
-
                         return true;
                     }
-                });*/
+                });
 
                 return true;
             }
-        });
+        });*/
 
         //Make the character list clickable,
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -220,12 +228,17 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = dbHelper.fetchCharacterData(db);
 
+        ListCursorAdapter myAdapter = new ListCursorAdapter(this, cursor);
+
+        charList.setAdapter(myAdapter);
+
+
         //and squirt them into a ListView
-        ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
+        /*ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
                 new String[]{CharactersTable.COLUMN_CHARACTER_NAME},
                 new int[]{R.id.idnum}, 0);
-        charList.setAdapter(myAdapter);
+        charList.setAdapter(myAdapter);*/
 
     }
 }
