@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ListView charList;
     Button selectedChar;
     Button removeCharacterButton;
-    //int deletePosition;.
+    //int deletePosition;
     boolean deleteEnabled;
 
     @Override
