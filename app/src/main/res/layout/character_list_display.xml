@@ -25,13 +25,4 @@
         android:paddingRight="20dp"
         app:layout_constraintLeft_toRightOf="@+id/iIDnum"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/confirmDeleteButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/delete_button_background"
-        android:visibility="invisible"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
