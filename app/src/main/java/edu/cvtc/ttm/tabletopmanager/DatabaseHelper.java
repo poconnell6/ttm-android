@@ -45,7 +45,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] whereArgsC = {characterID};
         //String[] whereArgsI = {characterName};
 
+
         //db.delete(InventoryTable.TABLE, InventoryTable.COLUMN_CHARACTER_NAME + " = ?", whereArgsI);  //this is unnecessary, triggersCreateStatement does this for us now
+
         db.delete(CharactersTable.TABLE, CharactersTable.COLUMN_CHARACTER_ID + " = ?", whereArgsC);
     }
 

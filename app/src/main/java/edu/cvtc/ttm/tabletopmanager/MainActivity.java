@@ -126,13 +126,17 @@ public class MainActivity extends AppCompatActivity {
 //                   Log.i("DB char name", "mycursor.name(1) " + name +"   ");
 //                   Log.i("DB char name", "mycursor.contactId(3) " + contactId +"   ");
 //
+
 //                    TextView charView = charList.getChildAt(position).findViewById(R.id.IDnum);
+
 //                    String deleteCharID = charView.getText().toString();
 //
                     String deletedCharShow = "Deleted " + CharName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
+
                     dbHelper.deleteCharacter(CharID, db);
+
 
                     getCharacterData();
                     Toast.makeText(view.getContext(), deletedCharShow, Toast.LENGTH_LONG).show();

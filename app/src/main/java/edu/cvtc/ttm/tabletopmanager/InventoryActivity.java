@@ -169,8 +169,10 @@ public class InventoryActivity extends AppCompatActivity {
 
                    // Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
                    // Log.i("DB char name", "mycursor.name(1) " + name +"   ");
+
 //                    Log.i("DB char name", "xItemName " + ItemName +"   ");
 //                    Log.i("DB char name", "xItemID " + ItemID +"   ");
+
 
 
                     //TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
@@ -180,7 +182,7 @@ public class InventoryActivity extends AppCompatActivity {
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     dbHelper.deleteItem(ItemID, db);
-
+                    
                     Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
                     updateUI(selectedCharName);
                 }
