@@ -7,4 +7,19 @@
     <string name="select_a_character_label">Select a Character</string>
     <string name="currency_unit">gp</string>
     <string name="weight_unit">lbs</string>
+    <string name="blank">blank</string>
+    <string name="gp">gp</string>
+    <string name="inventoryTitle">Inventory</string>
+    <string name="item_name_edit_text">Item Name</string>
+    <string name="item_weight_edit_text">Item Weight</string>
+    <string name="item_cost_edit_text">Item Cost</string>
+    <string name="itemEntryButton">Add</string>
+    <string name="delete_mode_button">Delete Mode</string>
+    <string name="goldTracker">Gold:</string>
+    <string name="updateMaxWeightButton">Update</string>
+    <string name="maxWeightLabel">Weight Limit:</string>
+    <string name="weightTrackerAmtDisplay">placeholder text</string>
+    <string name="weightTrackerLabel">Carried Weight:</string>
+    <string name="goldPlusButton">+</string>
+    <string name="goldMinusButton">-</string>
 </resources>

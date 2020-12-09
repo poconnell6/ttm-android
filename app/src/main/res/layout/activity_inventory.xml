@@ -17,7 +17,7 @@
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
         android:maxLength="83"
-        android:text="blank"
+        android:text="@string/blank"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -30,7 +30,7 @@
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="gp"
+        android:text="@string/gp"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -41,7 +41,7 @@
         android:id="@+id/inventoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inventory"
+        android:text="@string/inventoryTitle"
         android:textColor="#981111"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +52,7 @@
         android:id="@+id/itemNameEditText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Item Name"
+        android:hint="@string/item_name_edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventoryTitle" />
 
@@ -60,7 +60,7 @@
         android:id="@+id/itemWeightEditText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Item Weight"
+        android:hint="@string/item_weight_edit_text"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEditText" />
@@ -69,7 +69,7 @@
         android:id="@+id/itemCostEditText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Item Cost"
+        android:hint="@string/item_cost_edit_text"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemWeightEditText" />
@@ -81,7 +81,7 @@
         android:layout_below="@+id/itemCostEditText"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Add"
+        android:text="@string/itemEntryButton"
         android:textColor="#ff725fee"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -93,7 +93,7 @@
         android:id="@+id/itemDeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Mode"
+        android:text="@string/delete_mode_button"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemEntryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.37"
@@ -120,7 +120,7 @@
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="7dp"
-        android:text="Gold: "
+        android:text="@string/goldTracker"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/goldAmtDisplay"
         app:layout_constraintTop_toBottomOf="@+id/itemCostEditText" />
@@ -141,7 +141,7 @@
         android:layout_width="76dp"
         android:layout_height="40dp"
         android:layout_marginBottom="16dp"
-        android:text="Update"
+        android:text="@string/updateMaxWeightButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -151,7 +151,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="16dp"
-        android:text="Weight Limit:"
+        android:text="@string/maxWeightLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/maxWeightEditText" />
 
@@ -161,7 +161,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:text="placeholder text"
+        android:text="@string/weightTrackerAmtDisplay"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -174,7 +174,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="16dp"
-        android:text="Carried Weight:"
+        android:text="@string/weightTrackerLabel"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/weightTrackerAmtDisplay" />
@@ -192,7 +192,7 @@
         android:paddingHorizontal="0dp"
         android:paddingVertical="0dp"
         android:paddingTop="0dp"
-        android:text="+"
+        android:text="@string/goldPlusButton"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/goldPlusMinusEditText"
         app:layout_constraintTop_toTopOf="@+id/goldTracker" />
@@ -210,7 +210,7 @@
         android:paddingHorizontal="0dp"
         android:paddingVertical="0dp"
         android:paddingTop="0dp"
-        android:text="-"
+        android:text="@string/goldMinusButton"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/goldTracker" />
