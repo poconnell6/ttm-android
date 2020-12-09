@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
 
                 //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
-                } else if (charList.getCount() >= 10) {
+                } else if (charList.getCount() >= 7) {
 
                     Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
                //Finally, the character's name must be a unique one...
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        /*charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        charList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ListAdapter test = (ListAdapter) parent.getAdapter();
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 //charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton).setVisibility(view.VISIBLE);
                 //Toast.makeText(view.getContext(), method1.getName(), Toast.LENGTH_LONG).show();
 
-                /*final Button removeCharacterFinal = charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton);
+                final Button removeCharacterFinal = charList.getChildAt(deletePosition).findViewById(R.id.confirmDeleteButton);
                 removeCharacterFinal.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             }
-        });*/
+        });
 
         //Make the character list clickable,
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
