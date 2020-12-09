@@ -76,9 +76,24 @@ public class InventoryActivity extends AppCompatActivity {
                 String newItemWeight = itemWeight.getText().toString();
                 String newItemCost = itemCost.getText().toString();
 
+                //the 3 EditText fields can't be blank
+                if (newItemName.matches("")) {
+                    Toast.makeText(view.getContext(), "Please enter an item name.", Toast.LENGTH_LONG).show();
+                    //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
+                }
+                else if (newItemWeight.matches("")) {
+                    Toast.makeText(view.getContext(), "Please enter an item weight.", Toast.LENGTH_LONG).show();
+                }
+                else if (newItemCost.matches("")) {
+                    Toast.makeText(view.getContext(), "Please enter an item cost.", Toast.LENGTH_LONG).show();
+                }
+                //If they all contain *something* commit the new item to the DB and reload the ListView
+                else {
+
                 dbHelper.addNewItem(selectedCharName, newItemName, newItemWeight, newItemCost, db);
 
                 updateUI(selectedCharName);
+                }
             }
         });
 
