@@ -164,15 +164,23 @@ public class InventoryActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (deleteEnabled) {
 
+                    String ItemName = ((TextView) view.findViewById(R.id.iName)).getText().toString();
+                    String ItemID = ((TextView) view.findViewById(R.id.iIDnum)).getText().toString();
 
-                    TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
-                    String deleteItemID = itemView.getText().toString();
-                    TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
-                    String deletedItemShow = "Deleted " + deletedItem.getText().toString();
+                   // Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
+                   // Log.i("DB char name", "mycursor.name(1) " + name +"   ");
+                    Log.i("DB char name", "xItemName " + ItemName +"   ");
+                    Log.i("DB char name", "xItemID " + ItemID +"   ");
+
+
+                    //TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
+                    //String deleteItemID = itemView.getText().toString();
+                    //TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
+                    String deletedItemShow = "Deleted " + ItemName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                    dbHelper.deleteItem(deleteItemID, db);
+                    dbHelper.deleteItem(ItemID, db);
                     Toast.makeText(view.getContext(), deletedItemShow, Toast.LENGTH_LONG).show();
                     updateUI(selectedCharName);
 
@@ -225,7 +233,7 @@ public class InventoryActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             str = cursor.getString(cursor.getColumnIndex("SUM(ItemWeight)"));
             //String column_name = cursor.getColumnName(0);
-            Log.i("DB char name", "cursor.getString(1) " + cursor.getString(1) +"   ");
+            //Log.i("DB char name", "cursor.getString(1) " + cursor.getString(1) +"   ");
         }
         return str;
     }
@@ -238,7 +246,7 @@ public class InventoryActivity extends AppCompatActivity {
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.inventory_list_diplay,
                 cursor,
                 new String[]{InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
-                new int[]{R.id.idnum, R.id.cName, R.id.cWeight, R.id.cCost}, 0);
+                new int[]{R.id.iIDnum, R.id.iName, R.id.iWeight, R.id.iCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
 

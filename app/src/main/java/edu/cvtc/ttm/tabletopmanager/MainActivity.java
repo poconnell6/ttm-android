@@ -61,10 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
                 //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
-                } else if (charList.getCount() >= 7) {
-                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
-               //Finally, the character's name must be a unique one...
-                } else {
+                }
+//                else if (charList.getCount() >= 7) {
+//                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
+//
+//                }
+                //Finally, the character's name must be a unique one...
+                else {
                     if (dbHelper.compareNewName(db, newCharacterName)) {
                         dbHelper.newCharacter(newCharacterName, db);
                         getCharacterData();
@@ -110,19 +113,26 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (deleteEnabled) {
 
-                    Cursor cursor = (Cursor) charList.getItemAtPosition(position);
-                    String column_name = cursor.getColumnName(0);
+                    String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
+                    String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
+
+                    //-Cursor cursor = (Cursor) charList.getItemAtPosition(position);
+                    //-String column_name = cursor.getColumnName(0);
                     //String str = cursor.getString(cursor.getColumnIndex(0);
                     //Log.i("DB col name", "Should be: " + column_name);
-                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
-
-                    TextView charView = charList.getChildAt(position).findViewById(R.id.idnum);
-                    String deleteCharID = charView.getText().toString();
-
-                    String deletedCharShow = "Deleted " + deleteCharID;
+                    //-String contactId = ((TextView) view.findViewById(R.id.c3)).getText().toString();
+                    //-String name = ( charList.getItemAtPosition(position)).toString();
+//                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
+//                   Log.i("DB char name", "mycursor.name(1) " + name +"   ");
+//                   Log.i("DB char name", "mycursor.contactId(3) " + contactId +"   ");
+//
+//                    TextView charView = charList.getChildAt(position).findViewById(R.id.iIDnum);
+//                    String deleteCharID = charView.getText().toString();
+//
+                    String deletedCharShow = "Deleted " + CharName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
-                    dbHelper.deleteCharacter(deleteCharID, db);
+                    dbHelper.deleteCharacter(CharID, CharName, db);
 
                     getCharacterData();
                     Toast.makeText(view.getContext(), deletedCharShow, Toast.LENGTH_LONG).show();
@@ -207,8 +217,8 @@ public class MainActivity extends AppCompatActivity {
         //and squirt them into a ListView
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
-                new String[]{CharactersTable.COLUMN_CHARACTER_NAME},
-                new int[]{R.id.idnum}, 0);
+                new String[]{CharactersTable.COLUMN_CHARACTER_ID, CharactersTable.COLUMN_CHARACTER_NAME},
+                new int[]{R.id.cIDnum, R.id.cName}, 0);
         charList.setAdapter(myAdapter);
 
     }
