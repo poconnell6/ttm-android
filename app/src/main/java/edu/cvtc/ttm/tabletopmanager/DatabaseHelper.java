@@ -79,22 +79,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return characterNameList;
     }
-/*
-
-    //TODO: This is for a piece of future work that is in limbo, it is commented out for security and clarity ---->> DO WE NEED THIS ANY MORE DENNIS????
-    public  ArrayList<String> getSelectedItem(SQLiteDatabase db) {
-        String[] columns = {InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME};
-        Cursor cursor = db.query(InventoryTable.TABLE, columns, null, null, null, null, null);
-        ArrayList<String> itemNameList = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            itemNameList.add(cursor.getString(cursor.getColumnIndex(InventoryTable.COLUMN_INVENTORY_ID)));
-            itemNameList.add(cursor.getString(cursor.getColumnIndex(InventoryTable.COLUMN_ITEM_NAME)));
-        }
-
-        cursor.close();
-        return itemNameList;
-    }
-*/
 
     public Cursor fetchCharacterData(SQLiteDatabase db) {
         String str = "SELECT rowid _id, * FROM characters";
