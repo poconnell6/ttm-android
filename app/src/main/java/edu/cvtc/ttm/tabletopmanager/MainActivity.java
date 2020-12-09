@@ -228,17 +228,12 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = dbHelper.fetchCharacterData(db);
 
-        ListCursorAdapter myAdapter = new ListCursorAdapter(this, cursor);
-
-        charList.setAdapter(myAdapter);
-
-
         //and squirt them into a ListView
-        /*ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
+        ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
                 new String[]{CharactersTable.COLUMN_CHARACTER_NAME},
                 new int[]{R.id.idnum}, 0);
-        charList.setAdapter(myAdapter);*/
+        charList.setAdapter(myAdapter);
 
     }
 }
