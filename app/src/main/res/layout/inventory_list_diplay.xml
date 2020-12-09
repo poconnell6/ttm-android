@@ -8,7 +8,7 @@
     >
 
     <TextView
-        android:id="@+id/idnum"
+        android:id="@+id/iIDnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
@@ -18,15 +18,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cName"
+        android:id="@+id/iName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
-        app:layout_constraintLeft_toRightOf="@+id/idnum"
+        app:layout_constraintLeft_toRightOf="@+id/iIDnum"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cWeight"
+        android:id="@+id/iWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="0dp"
@@ -39,10 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
-        app:layout_constraintRight_toLeftOf="@+id/cCost"
+        app:layout_constraintRight_toLeftOf="@+id/iCost"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/cCost"
+        android:id="@+id/iCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="0dp"
@@ -55,14 +55,5 @@
         android:layout_height="wrap_content"
         android:paddingRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/confirmDeleteButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/delete_button_background"
-        android:visibility="invisible"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,11 +21,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(charactersTableCreateStatement());
         db.execSQL(inventoryTableCreateStatement());
+        db.execSQL(triggersCreateStatement());
     }
 
+    //Once this is out of beta we need to do real upgrades: https://thebhwgroup.com/blog/how-android-sqlite-onupgrade
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + InventoryTable.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + CharactersTable.TABLE);
+        onCreate(db);
     }
 
     public void newCharacter(String characterName, SQLiteDatabase db) {
@@ -36,12 +40,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Delete character and corresponding inventory from their tables
-    public void deleteCharacter(String characterName, SQLiteDatabase db) {
+    public void deleteCharacter(String characterID,  SQLiteDatabase db) {
         db = getWritableDatabase();
-        String[] whereArgs = {characterName};
+        String[] whereArgsC = {characterID};
+        //String[] whereArgsI = {characterName};
 
-        db.delete(InventoryTable.TABLE, InventoryTable.COLUMN_CHARACTER_NAME + " = ?", whereArgs);
-        db.delete(CharactersTable.TABLE, CharactersTable.COLUMN_CHARACTER_NAME + " = ?", whereArgs);
+
+        //db.delete(InventoryTable.TABLE, InventoryTable.COLUMN_CHARACTER_NAME + " = ?", whereArgsI);  //this is unnecessary, triggersCreateStatement does this for us now
+
+        db.delete(CharactersTable.TABLE, CharactersTable.COLUMN_CHARACTER_ID + " = ?", whereArgsC);
     }
 
     public void addNewItem(String charName, String itemName, String weight, String cost, SQLiteDatabase db) {
@@ -72,22 +79,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return characterNameList;
     }
-/*
-
-    //TODO: This is for a piece of future work that is in limbo, it is commented out for security and clarity
-    public  ArrayList<String> getSelectedItem(SQLiteDatabase db) {
-        String[] columns = {InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME};
-        Cursor cursor = db.query(InventoryTable.TABLE, columns, null, null, null, null, null);
-        ArrayList<String> itemNameList = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            itemNameList.add(cursor.getString(cursor.getColumnIndex(InventoryTable.COLUMN_INVENTORY_ID)));
-            itemNameList.add(cursor.getString(cursor.getColumnIndex(InventoryTable.COLUMN_ITEM_NAME)));
-        }
-
-        cursor.close();
-        return itemNameList;
-    }
-*/
 
     public Cursor fetchCharacterData(SQLiteDatabase db) {
         String str = "SELECT rowid _id, * FROM characters";
@@ -148,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 CharactersTable.COLUMN_CHARACTER_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                 CharactersTable.COLUMN_CHARACTER_GOLD + " INTEGER DEFAULT 0, " +
                 CharactersTable.COLUMN_CHARACTER_MAXWEIGHT + " INTEGER DEFAULT 99999, " +
-                CharactersTable.COLUMN_CHARACTER_NAME + " TEXT);";
+                CharactersTable.COLUMN_CHARACTER_NAME + " TEXT UNIQUE);";
     }
 
     public static String inventoryTableCreateStatement() {
@@ -159,5 +150,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 InventoryTable.COLUMN_ITEM_NAME + " TEXT, " +
                 InventoryTable.COLUMN_ITEM_WEIGHT + " TEXT, " +
                 InventoryTable.COLUMN_ITEM_COST + " TEXT);";
+    }
+    // this makes sure a characters items are deleted if that char is deleted
+    // https://stackoverflow.com/questions/11415064/sqlitedatabase-delete-involving-sub-query
+    // https://stackoverflow.com/questions/10639331/new-and-old-trigger-code
+    public static String triggersCreateStatement() {
+        return"CREATE TRIGGER delete_cascade_owned_items AFTER DELETE ON "+ CharactersTable.TABLE + " \n" +
+                "BEGIN\n" +
+                "    DELETE FROM "+ InventoryTable.TABLE + " WHERE "+ InventoryTable.TABLE + "." + InventoryTable.COLUMN_CHARACTER_NAME + "=OLD."+ CharactersTable.COLUMN_CHARACTER_NAME + ";\n" +
+                "END;";
     }
 }
