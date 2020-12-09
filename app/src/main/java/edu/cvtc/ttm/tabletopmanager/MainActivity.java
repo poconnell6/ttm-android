@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ListView charList;
     Button selectedChar;
     Button removeCharacterButton;
-    int deletePosition;
+    //int deletePosition;
     boolean deleteEnabled;
 
     @Override
@@ -61,10 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
                 //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
-                } else if (charList.getCount() >= 7) {
-                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
-               //Finally, the character's name must be a unique one...
-                } else {
+                }
+//                else if (charList.getCount() >= 7) {
+//                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
+//
+//                }
+                //Finally, the character's name must be a unique one...
+                else {
                     if (dbHelper.compareNewName(db, newCharacterName)) {
                         dbHelper.newCharacter(newCharacterName, db);
                         getCharacterData();
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: Fix all the character delete related crashes.
+        //TODO: Fix all the character delete related crashes. FIXED??
 
         // Long press deletes character but then clicks character that ends up in its position- not that bad but not good practice either
         final Button removeCharacterButton = findViewById(R.id.removeCharacterButton);
@@ -87,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (deleteEnabled == false) {
+                if (!deleteEnabled) {
                     deleteEnabled = true;
                     removeCharacterButton.setTextColor(Color.RED);
-                    Toast.makeText(view.getContext(), "Long-Press on an item to delete it.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "Long-Press on a character to delete them.", Toast.LENGTH_LONG).show();
                 }
-                else if (deleteEnabled == true) { //i don't care if the IDE prefers the shorter form this is more symmetrical  and more explicit, i like it here
+                else if (deleteEnabled) {
                     deleteEnabled = false;
                     removeCharacterButton.setTextColor(Color.BLACK);
                     Toast.makeText(view.getContext(), "Exiting delete mode.", Toast.LENGTH_LONG).show();
@@ -110,24 +113,31 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (deleteEnabled) {
 
-                    Cursor cursor = (Cursor) charList.getItemAtPosition(position);
-                    String column_name = cursor.getColumnName(0);
+                    String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
+                    String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
+
+                    //-Cursor cursor = (Cursor) charList.getItemAtPosition(position);
+                    //-String column_name = cursor.getColumnName(0);
                     //String str = cursor.getString(cursor.getColumnIndex(0);
                     //Log.i("DB col name", "Should be: " + column_name);
-                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
-
-                    TextView charView = charList.getChildAt(position).findViewById(R.id.idnum);
-                    String deleteCharID = charView.getText().toString();
-
-                    String deletedCharShow = "Deleted " + deleteCharID;
+                    //-String contactId = ((TextView) view.findViewById(R.id.c3)).getText().toString();
+                    //-String name = ( charList.getItemAtPosition(position)).toString();
+//                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
+//                   Log.i("DB char name", "mycursor.name(1) " + name +"   ");
+//                   Log.i("DB char name", "mycursor.contactId(3) " + contactId +"   ");
+//
+//                    TextView charView = charList.getChildAt(position).findViewById(R.id.IDnum);
+//                    String deleteCharID = charView.getText().toString();
+//
+                    String deletedCharShow = "Deleted " + CharName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
-                    dbHelper.deleteCharacter(deleteCharID, db);
+                    dbHelper.deleteCharacter(CharID, db);
 
                     getCharacterData();
                     Toast.makeText(view.getContext(), deletedCharShow, Toast.LENGTH_LONG).show();
 
-                    deleteEnabled = false;
+                    deleteEnabled = false; //deleting multiple characters is more rare and thus made intentionally harder than mass-deleting items
                     removeCharacterButton.setTextColor(Color.BLACK);
 
 
@@ -140,8 +150,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         //Make the character list clickable, and on a short click take the user to their inventory.
         charList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,11 +157,12 @@ public class MainActivity extends AppCompatActivity {
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 ArrayList<String> selectedCharacter = dbHelper.getSelectedCharacter(db);
 
-                String characterName = selectedCharacter.get(position);
+                String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
+                String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
 
                 Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-                intent.putExtra("name", characterName);
-                intent.putExtra("id", position);
+                intent.putExtra("name", CharName);
+                intent.putExtra("id", CharID);
                 startActivity(intent);
             }
         });
@@ -201,15 +210,13 @@ public class MainActivity extends AppCompatActivity {
     private void getCharacterData() {
         //Suck the character names out of the DB
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = dbHelper.fetchCharacterData(db);
 
         //and squirt them into a ListView
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
-                new String[]{CharactersTable.COLUMN_CHARACTER_NAME},
-                new int[]{R.id.idnum}, 0);
+                new String[]{CharactersTable.COLUMN_CHARACTER_ID, CharactersTable.COLUMN_CHARACTER_NAME},
+                new int[]{R.id.cIDnum, R.id.cName}, 0);
         charList.setAdapter(myAdapter);
-
     }
 }

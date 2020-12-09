@@ -8,7 +8,7 @@
     >
 
     <TextView
-        android:id="@+id/idnum"
+        android:id="@+id/iIDnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
@@ -18,15 +18,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cName"
+        android:id="@+id/iName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
-        app:layout_constraintLeft_toRightOf="@+id/idnum"
+        app:layout_constraintLeft_toRightOf="@+id/iIDnum"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cWeight"
+        android:id="@+id/iWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="0dp"
@@ -39,10 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="20dp"
-        app:layout_constraintRight_toLeftOf="@+id/cCost"
+        app:layout_constraintRight_toLeftOf="@+id/iCost"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/cCost"
+        android:id="@+id/iCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="0dp"
