@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -180,7 +179,7 @@ public class InventoryActivity extends AppCompatActivity {
                 if (deleteEnabled) {
 
                     String ItemName = ((TextView) view.findViewById(R.id.iName)).getText().toString();
-                    String ItemID = ((TextView) view.findViewById(R.id.iIDnum)).getText().toString();
+                    String ItemID = ((TextView) view.findViewById(R.id.iIDNum)).getText().toString();
 
                    // Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
                    // Log.i("DB char name", "mycursor.name(1) " + name +"   ");
@@ -259,7 +258,7 @@ public class InventoryActivity extends AppCompatActivity {
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.inventory_list_diplay,
                 cursor,
                 new String[]{InventoryTable.COLUMN_INVENTORY_ID, InventoryTable.COLUMN_ITEM_NAME, InventoryTable.COLUMN_ITEM_WEIGHT, InventoryTable.COLUMN_ITEM_COST},
-                new int[]{R.id.iIDnum, R.id.iName, R.id.iWeight, R.id.iCost}, 0);
+                new int[]{R.id.iIDNum, R.id.iName, R.id.iWeight, R.id.iCost}, 0);
         inventoryDisplay.setAdapter(myAdapter);
 
 
