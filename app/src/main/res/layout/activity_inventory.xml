@@ -9,7 +9,8 @@
     android:paddingRight="5dp"
     android:paddingBottom="5dp"
     tools:context=".MainActivity">
-
+<!--Implementing internationalization features such as RTL text support as Android Studio suggests
+    potentially requires changes to the UI design and is beyond the scope of this initial release-->
 
     <TextView
         android:id="@+id/goldAmtDisplay"
@@ -56,7 +57,9 @@
         android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventoryTitle"
-        android:inputType="text" />
+        android:inputType="textPersonName"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+        />
 
     <EditText
         android:id="@+id/itemWeightEditText"
@@ -64,6 +67,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/item_weight_edit_text"
         android:inputType="numberDecimal"
+        android:digits="0123456789"
         android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemNameEditText" />
@@ -74,6 +78,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/item_cost_edit_text"
         android:inputType="numberDecimal"
+        android:digits="0123456789"
         android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemWeightEditText" />
@@ -138,6 +143,7 @@
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:inputType="number"
+        android:digits="0123456789"
         android:importantForAutofill="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/updateMaxWeightButton" />
@@ -229,7 +235,8 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="numberDecimal"
+        android:digits="0123456789"
         android:paddingTop="0dp"
         android:paddingBottom="4dp"
         android:importantForAutofill="no"
