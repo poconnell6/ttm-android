@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     EditText charName;
     DatabaseHelper dbHelper;
     ListView charList;
-    Button selectedChar;
-    Button removeCharacterButton;
-    //int deletePosition;
     boolean deleteEnabled;
 
     @Override
@@ -67,14 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 //cant be blank
                 if (newCharacterName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter a character name", Toast.LENGTH_LONG).show();
-
-                //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
-
                 }
-//                else if (charList.getCount() >= 7) {
-//                    Toast.makeText(view.getContext(), "You have the max amount of characters, please delete one first", Toast.LENGTH_LONG).show();
-//
-//                }
+
                 //Finally, the character's name must be a unique one...
                 else {
 
@@ -125,26 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (deleteEnabled) {
 
-
                     //this works... (found here: https://stackoverflow.com/questions/14839121/how-to-get-textview-values-from-a-listview-items)
                     String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
                     String CharID = ((TextView) view.findViewById(R.id.cIDNum)).getText().toString();
                     //where this does not:
-//                    TextView charView = charList.getChildAt(position).findViewById(R.id.cIDnum);
-//                    String deleteCharID = charView.getText().toString();
 
-                    //some other bits and pieces that also didn't work
-                    //-Cursor cursor = (Cursor) charList.getItemAtPosition(position);
-                    //-String column_name = cursor.getColumnName(0);
-                    //String str = cursor.getString(cursor.getColumnIndex(0);
-                    //Log.i("DB col name", "Should be: " + column_name);
-                    //-String contactId = ((TextView) view.findViewById(R.id.c3)).getText().toString();
-                    //-String name = ( charList.getItemAtPosition(position)).toString();
-//                   Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
-//                   Log.i("DB char name", "mycursor.name(1) " + name +"   ");
-//                   Log.i("DB char name", "mycursor.contactId(3) " + contactId +"   ");
-
-//
                     String deletedCharShow = "Deleted " + CharName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -223,10 +199,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void cancelDelete(View view) {
-        view.setVisibility(View.INVISIBLE);
     }
 
     private void getCharacterData() {

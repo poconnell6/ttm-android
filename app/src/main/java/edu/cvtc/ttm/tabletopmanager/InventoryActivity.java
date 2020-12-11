@@ -46,11 +46,6 @@ public class InventoryActivity extends AppCompatActivity {
 
         final String selectedCharName = intent.getExtras().getString("name");
 
-
-
-        //final Integer passedCharID = intent.getExtras().getInt("id");
-        //final String selectedCharID = passedCharID.toString();
-
         itemName = findViewById(R.id.itemNameEditText);
         itemWeight = findViewById(R.id.itemWeightEditText);
         itemCost = findViewById(R.id.itemCostEditText);
@@ -78,7 +73,6 @@ public class InventoryActivity extends AppCompatActivity {
                 //the 3 EditText fields can't be blank
                 if (newItemName.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter an item name.", Toast.LENGTH_LONG).show();
-                    //We currently have limit of seven characters due to issues with deleting characters (modifying listView entries while they are offscreen?)
                 }
                 else if (newItemWeight.matches("")) {
                     Toast.makeText(view.getContext(), "Please enter an item weight.", Toast.LENGTH_LONG).show();
@@ -181,17 +175,6 @@ public class InventoryActivity extends AppCompatActivity {
                     String ItemName = ((TextView) view.findViewById(R.id.iName)).getText().toString();
                     String ItemID = ((TextView) view.findViewById(R.id.iIDNum)).getText().toString();
 
-                   // Log.i("DB char name", "mycursor.getString(1) " + cursor.getString(0) +"   ");
-                   // Log.i("DB char name", "mycursor.name(1) " + name +"   ");
-
-//                    Log.i("DB char name", "xItemName " + ItemName +"   ");
-//                    Log.i("DB char name", "xItemID " + ItemID +"   ");
-
-
-
-                    //TextView itemView = inventoryDisplay.getChildAt(position).findViewById(R.id.idnum);
-                    //String deleteItemID = itemView.getText().toString();
-                    //TextView deletedItem = inventoryDisplay.getChildAt(position).findViewById(R.id.cName);
                     String deletedItemShow = "Deleted " + ItemName;
 
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
