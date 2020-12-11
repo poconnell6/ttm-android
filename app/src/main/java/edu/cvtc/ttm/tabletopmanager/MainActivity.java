@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //this works... (found here: https://stackoverflow.com/questions/14839121/how-to-get-textview-values-from-a-listview-items)
                     String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
-                    String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
+                    String CharID = ((TextView) view.findViewById(R.id.cIDNum)).getText().toString();
                     //where this does not:
 //                    TextView charView = charList.getChildAt(position).findViewById(R.id.cIDnum);
 //                    String deleteCharID = charView.getText().toString();
@@ -177,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<String> selectedCharacter = dbHelper.getSelectedCharacter(db);
 
                 String CharName = ((TextView) view.findViewById(R.id.cName)).getText().toString();
-                String CharID = ((TextView) view.findViewById(R.id.cIDnum)).getText().toString();
+                String CharID = ((TextView) view.findViewById(R.id.cIDNum)).getText().toString();
 
                 Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
                 intent.putExtra("name", CharName);
@@ -239,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         ListAdapter myAdapter = new SimpleCursorAdapter(this, R.layout.character_list_display,
                 cursor,
                 new String[]{CharactersTable.COLUMN_CHARACTER_ID, CharactersTable.COLUMN_CHARACTER_NAME},
-                new int[]{R.id.cIDnum, R.id.cName}, 0);
+                new int[]{R.id.cIDNum, R.id.cName}, 0);
         charList.setAdapter(myAdapter);
     }
 }
